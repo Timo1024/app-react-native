@@ -1,0 +1,1 @@
+`yarn react-native-asset` used to update the fonts in the assets/fonts folder
