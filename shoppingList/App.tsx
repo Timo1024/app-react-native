@@ -1,10 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {NavigationContainer, RouteProp} from '@react-navigation/native';
+import {NavigationContainer, RouteProp, DefaultTheme } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import StartScreen from './components/StartScreen';
 import Settings from './components/Settings';
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'transparent',
+  },
+};
+
 
 type RootStackParamList = {
   Home: undefined;
@@ -16,13 +25,15 @@ const Stack = createNativeStackNavigator();
 
 const App : React.FC = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer 
+      theme={MyTheme}>
       <Stack.Navigator 
         screenOptions={{
-          headerShown: false
+          headerShown: false,
+          animation: 'slide_from_right'
         }}
         initialRouteName="Home">
-        <Stack.Screen 
+        <Stack.Screen
           name="Home" 
           component={StartScreen}
         />
@@ -41,7 +52,8 @@ const App : React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    backgroundColor: '#151515',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import Svg, { Path, Circle } from 'react-native-svg';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const tags : string[] = ['Other', 'University', 'Shopping Lists', 'Important'];
 const todoLists = ["List 1", "List 2", "List 3", "List 4", "List 5"];
@@ -14,6 +15,24 @@ const fontFamilyBold = 'Nunito-Medium';
 const HomeScreen: React.FC = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const [settings, setSettings] = useState([]);
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const storedSettings = await AsyncStorage.getItem('settings');
+        if (storedSettings) {
+          const parsedSettings = JSON.parse(storedSettings);
+          // Set the settings in state
+          setSettings(parsedSettings);
+        }
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    };
+    loadSettings();
+  }, []);
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
 
